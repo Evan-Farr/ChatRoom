@@ -34,8 +34,8 @@ namespace Server
             TcpClient clientSocket = default(TcpClient);
             clientSocket = server.AcceptTcpClient();
             Console.WriteLine("Connected");
-            TimeStamp currentDateTime = new TimeStamp();
-            Console.WriteLine(currentDateTime);
+            DateTime currentDateTime = DateTime.Now;
+            Console.WriteLine(currentDateTime.ToString());
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
         }

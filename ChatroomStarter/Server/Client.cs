@@ -23,14 +23,12 @@ namespace Server
 
         public void Send(string Message)
         {
-            //TimeStamp timeSent = new TimeStamp();
             byte[] message = Encoding.ASCII.GetBytes(Message);
             stream.Write(message, 0, message.Count());
         }
 
         public void Recieve()
         {
-            //TimeStamp timeRecieved = new TimeStamp();
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
             string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
