@@ -1,0 +1,8 @@
+c:\users\hobbitmafia\Dropbox\C#\ChatroomStarter\Server\bin\Debug\Server.exe.config
+c:\users\hobbitmafia\Dropbox\C#\ChatroomStarter\Server\bin\Debug\Server.exe
+c:\users\hobbitmafia\Dropbox\C#\ChatroomStarter\Server\bin\Debug\Server.pdb
+c:\users\hobbitmafia\Dropbox\C#\ChatroomStarter\Server\obj\Debug\Server.exe
+c:\users\hobbitmafia\Dropbox\C#\ChatroomStarter\Server\obj\Debug\Server.pdb
+C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\bin\Debug\Server.exe.config
+C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\obj\Debug\Server.exe
+C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\obj\Debug\Server.pdb
