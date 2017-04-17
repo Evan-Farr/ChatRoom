@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client /*: IObservable<Message>*/
+    class Client /*: IObservable<Server>*/
     {
         NetworkStream stream;
         TcpClient client;
