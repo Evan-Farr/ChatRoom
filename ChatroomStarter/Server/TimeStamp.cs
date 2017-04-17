@@ -8,18 +8,9 @@ namespace Server
 {
     class TimeStamp
     {
-        private static DateTime currentDateTime;
-
-        public static DateTime CurrentDateTime { get { return currentDateTime; } }
-
         public TimeStamp()
         {
             DateTime currentDateTime = DateTime.Now;
-        }
-
-        internal int Count()
-        {
-            throw new NotImplementedException();
         }
     }
 }
