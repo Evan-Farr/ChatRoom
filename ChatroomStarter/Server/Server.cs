@@ -15,17 +15,20 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         TcpListener server;
+
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
         }
+
         public void Run()
         {
             AcceptClient();
             client.Recieve();
             Respond();
         }
+
         private void AcceptClient()
         {
             TcpClient clientSocket = default(TcpClient);
@@ -34,6 +37,7 @@ namespace Server
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
         }
+
         private void Respond()
         {
             Message message = default(Message);
