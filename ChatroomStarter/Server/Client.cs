@@ -47,7 +47,7 @@ namespace Server
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
             string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-            for (int i = 0; i < Server.chatMembers.Count; i++)
+            for (int i = 0; i < Server.members.Count; i++)
             {
                 if (recievedMessageString.Equals(i))
                 {
@@ -60,7 +60,7 @@ namespace Server
             return userName;
         }
 
-        public void Notify(IChatMember members)
+        public void Notify(IChatMember member)
         {
             Console.WriteLine($"{userName} has joined the chat!\n");
             //Send($"{userName} has joined the chat!\n");

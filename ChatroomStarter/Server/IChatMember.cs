@@ -8,6 +8,7 @@ namespace Server
 {
     public interface IChatMember
     {
+        string UserName { get; set; }
         void Notify(IChatMember members);
     }
 }
