@@ -15,7 +15,7 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         TcpListener server;
-        public static Dictionary<IChatMembers, string> chatMembers = new Dictionary<IChatMembers, string>();
+        public static Dictionary<IChatMember, string> chatMembers = new Dictionary<IChatMember, string>();
 
         public Server()
         {
@@ -59,7 +59,7 @@ namespace Server
         
         public void NotifyChatMembers()
         {
-            foreach(KeyValuePair<IChatMembers, string> member in chatMembers)
+            foreach(KeyValuePair<IChatMember, string> member in chatMembers)
             {
                 member.Key.Notify(member.Key);
             }

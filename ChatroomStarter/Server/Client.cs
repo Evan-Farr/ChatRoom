@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client : IChatMembers
+    class Client : IChatMember
     {
         NetworkStream stream;
         public TcpClient client;
@@ -41,21 +41,23 @@ namespace Server
         public string SetUserName()
         {
             Send("Enter your desired display name for this chat...");
-            string choice = Console.ReadLine();
+            byte[] recievedMessage = new byte[256];
+            stream.Read(recievedMessage, 0, recievedMessage.Length);
+            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
             for (int i = 0; i < Server.chatMembers.Count; i++)
             {
-                if (choice.Equals(i))
+                if (recievedMessageString.Equals(i))
                 {
                     Send("That name is not available.");
                     Console.WriteLine();
                     SetUserName();
                 }
             }
-            userName = choice;
-            return UserName;
+            userName = recievedMessageString;
+            return userName;
         }
 
-        public void Notify(IChatMembers members)
+        public void Notify(IChatMember members)
         {
             Console.WriteLine($"{userName} has joined the chat!\n");
             //Send($"{userName} has joined the chat!\n");

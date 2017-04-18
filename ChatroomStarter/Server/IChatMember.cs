@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public interface IChatMembers
+    public interface IChatMember
     {
-        void Notify(IChatMembers members);
+        void Notify(IChatMember members);
     }
 }
