@@ -15,7 +15,7 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         TcpListener server;
-        public static List<TcpClient> clientsList = new List<TcpClient>();
+        public static Dictionary<String, string> clientsList = new Dictionary<string, string>();
 
         public Server()
         {
