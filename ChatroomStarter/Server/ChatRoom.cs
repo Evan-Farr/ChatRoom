@@ -32,7 +32,7 @@ namespace Server
             userCount = 0;
             privateChat = PrivateChat;
             open = true;
-            TimeStamp timeStarted = new TimeStamp();
+            DateTime timeStarted = DateTime.Now;
         }
 
         private string SetRoomId()

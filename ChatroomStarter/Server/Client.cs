@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client /*: IObservable<Server>*/
+    class Client : IObservable<Server>
     {
         NetworkStream stream;
         TcpClient client;
@@ -35,6 +35,11 @@ namespace Server
             Message message = new Message(null, recievedMessageString);
             Server.messageQueue.Enqueue(message);
             Console.WriteLine(recievedMessageString);
+        }
+
+        public IDisposable Subscribe(IObserver<Server> observer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
