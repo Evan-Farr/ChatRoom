@@ -40,7 +40,7 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            members.Add(client, client.UserName);
+            //members.Add(client, client.UserName);
         }
 
         private void Respond()
@@ -52,17 +52,17 @@ namespace Server
             }
         }
 
-        public void Upload()
-        {
-            NotifyChatMembers();
-        }
+        //public void Upload()
+        //{
+        //    NotifyChatMembers();
+        //}
         
-        public void NotifyChatMembers()
-        {
-            foreach(KeyValuePair<IChatMember, string> member in members)
-            {
-                member.Key.Notify(member.Key);
-            }
-        }
+        //public void NotifyChatMembers()
+        //{
+        //    foreach(KeyValuePair<IChatMember, string> member in members)
+        //    {
+        //        member.Key.Notify(member.Key);
+        //    }
+        //}
     }
 }
