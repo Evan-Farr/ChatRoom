@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="ChatRoom.cs" />
     <Compile Include="Client.cs" />
-    <Compile Include="ISubscriber.cs" />
+    <Compile Include="IChatMembers.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

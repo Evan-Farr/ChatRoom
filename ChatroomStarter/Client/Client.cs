@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    class Client
+    class Client 
     {
         TcpClient clientSocket;
         NetworkStream stream;
@@ -31,7 +31,7 @@ namespace Client
         {
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
-            UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage));
+            UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
         }
     }
 }

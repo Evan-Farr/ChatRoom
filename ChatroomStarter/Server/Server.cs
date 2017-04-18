@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Server
+namespace Server 
 {
     class Server 
     {
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         TcpListener server;
-        public static Dictionary<TcpClient, string> chatMembers = new Dictionary<TcpClient, string>();
+        public static Dictionary<IChatMembers, string> chatMembers = new Dictionary<IChatMembers, string>();
 
         public Server()
         {
@@ -40,9 +40,7 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            chatMembers.Add(clientSocket, client.UserName);
-            Console.WriteLine($"{client.UserName} has joined the chat.");
-            Console.WriteLine(currentDateTime.ToString());
+            chatMembers.Add(client, client.UserName);
         }
 
         private void Respond()
@@ -51,6 +49,19 @@ namespace Server
             if (messageQueue.TryDequeue(out message))
             {
                 client.Send(message.Body);
+            }
+        }
+
+        public void Upload()
+        {
+            NotifyChatMembers();
+        }
+        
+        public void NotifyChatMembers()
+        {
+            foreach(KeyValuePair<IChatMembers, string> member in chatMembers)
+            {
+                member.Key.Notify(member.Key);
             }
         }
     }

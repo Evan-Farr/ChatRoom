@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client : ISubscriber
+    class Client : IChatMembers
     {
+        Server server;
         NetworkStream stream;
-        TcpClient client;
-        private string userName;  
+        public TcpClient client;
+        private string userName;
 
         public string UserName { get { return userName; } set { userName = value; } }
-
 
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
-            UserName = GetUserName();
+            userName = GetUserName();
         }
 
         public void Send(string Message)
@@ -41,18 +41,25 @@ namespace Server
 
         public string GetUserName()
         {
-            Console.WriteLine("Enter your desired display name for this chat...");
-            string userNameChoice = Console.ReadLine().ToUpper();
-            for(int i = 0; i < Server.chatMembers.Count; i++)
+            Send("Enter your desired display name for this chat...");
+            string userNameChoice = Console.ReadLine();
+            for (int i = 0; i < Server.chatMembers.Count; i++)
             {
                 if (userNameChoice.Equals(i))
                 {
-                    Console.WriteLine("That name is not available. Please try again.");
+                    Send("That name is not available.");
                     Console.WriteLine();
                     GetUserName();
                 }
             }
             return UserName;
-        }  
+        }
+
+        public void Notify(IChatMembers members)
+        {
+            Console.Write($"{userName} has joined the chat!\n");
+            DateTime currentDateTime = DateTime.Now;
+            Console.WriteLine(currentDateTime.ToString());
+        }
     }
 }
