@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client : IObservable<Server>
+    class Client : ISubscriber
     {
         NetworkStream stream;
         TcpClient client;
-        public string UserId;
-        public string UserName;  
+        private string userName;  
+
+        public string UserName { get { return userName; } set { userName = value; } }
 
 
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
-            UserId = "495933b6-1762-47a1-b655-483510072e73";
             UserName = GetUserName();
         }
 
@@ -53,11 +53,6 @@ namespace Server
                 }
             }
             return UserName;
-        }
-
-        public IDisposable Subscribe(IObserver<Server> observer)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         TcpListener server;
-        public static Dictionary<String, string> clientsList = new Dictionary<string, string>();
+        public static Dictionary<TcpClient, string> clientsList = new Dictionary<TcpClient, string>();
 
         public Server()
         {
@@ -40,8 +40,8 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            clientsList.Add(clientSocket);
-            Console.WriteLine($"{client.UserId} has joined the chat.");
+            clientsList.Add(clientSocket, client.UserName);
+            Console.WriteLine($"{client.UserName} has joined the chat.");
             Console.WriteLine(currentDateTime.ToString());
         }
 
