@@ -10,13 +10,13 @@ namespace Server
     {
         public Client sender;
         public string Body;
-        public string UserName;
+        public string UserId;
 
         public Message(Client Sender, string Body)
         {
             sender = Sender;
             this.Body = Body;
-            UserName = sender?.UserName;
+            UserId = sender?.UserId;
         }
     }
 }

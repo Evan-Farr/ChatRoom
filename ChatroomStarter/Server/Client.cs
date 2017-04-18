@@ -11,14 +11,17 @@ namespace Server
     {
         NetworkStream stream;
         public TcpClient client;
+        public string userId;
         private string userName;
 
+        public string UserId { get { return userId; } set { userId = value; } }
         public string UserName { get { return userName; } set { userName = value; } }
 
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
+            UserId = "495933b6-1762-47a1-b655-483510072e73";
             userName = SetUserName();
         }
 
