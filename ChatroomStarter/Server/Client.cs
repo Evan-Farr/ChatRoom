@@ -9,7 +9,6 @@ namespace Server
 {
     class Client : IChatMembers
     {
-        Server server;
         NetworkStream stream;
         public TcpClient client;
         private string userName;
@@ -20,7 +19,7 @@ namespace Server
         {
             stream = Stream;
             client = Client;
-            userName = GetUserName();
+            userName = SetUserName();
         }
 
         public void Send(string Message)
@@ -39,27 +38,30 @@ namespace Server
             Console.WriteLine(recievedMessageString);
         }
 
-        public string GetUserName()
+        public string SetUserName()
         {
             Send("Enter your desired display name for this chat...");
-            string userNameChoice = Console.ReadLine();
+            string choice = Console.ReadLine();
             for (int i = 0; i < Server.chatMembers.Count; i++)
             {
-                if (userNameChoice.Equals(i))
+                if (choice.Equals(i))
                 {
                     Send("That name is not available.");
                     Console.WriteLine();
-                    GetUserName();
+                    SetUserName();
                 }
             }
+            userName = choice;
             return UserName;
         }
 
         public void Notify(IChatMembers members)
         {
-            Console.Write($"{userName} has joined the chat!\n");
+            Console.WriteLine($"{userName} has joined the chat!\n");
+            //Send($"{userName} has joined the chat!\n");
             DateTime currentDateTime = DateTime.Now;
             Console.WriteLine(currentDateTime.ToString());
+            //Send(currentDateTime.ToString());
         }
     }
 }
