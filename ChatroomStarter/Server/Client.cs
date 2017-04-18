@@ -43,7 +43,7 @@ namespace Server
         {
             Console.WriteLine("Enter your desired display name for this chat...");
             string userNameChoice = Console.ReadLine().ToUpper();
-            for(int i = 0; i < Server.clientsList.Count; i++)
+            for(int i = 0; i < Server.chatMembers.Count; i++)
             {
                 if (userNameChoice.Equals(i))
                 {
@@ -53,6 +53,6 @@ namespace Server
                 }
             }
             return UserName;
-        }
+        }  
     }
 }

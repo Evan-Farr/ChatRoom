@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Server
+    class Server 
     {
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         TcpListener server;
-        public static Dictionary<TcpClient, string> clientsList = new Dictionary<TcpClient, string>();
+        public static Dictionary<TcpClient, string> chatMembers = new Dictionary<TcpClient, string>();
 
         public Server()
         {
@@ -40,7 +40,7 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            clientsList.Add(clientSocket, client.UserName);
+            chatMembers.Add(clientSocket, client.UserName);
             Console.WriteLine($"{client.UserName} has joined the chat.");
             Console.WriteLine(currentDateTime.ToString());
         }
