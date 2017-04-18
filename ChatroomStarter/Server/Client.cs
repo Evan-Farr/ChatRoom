@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client : IChatMember
+    class Client /*: IChatMember*/
     {
         NetworkStream stream;
         public TcpClient client;
@@ -27,18 +27,32 @@ namespace Server
 
         public void Send(string Message)
         {
-            byte[] message = Encoding.ASCII.GetBytes(Message);
-            stream.Write(message, 0, message.Count());
+            while (true)
+            {
+                byte[] message = Encoding.ASCII.GetBytes(Message);
+                stream.Write(message, 0, message.Count());
+            }
+            //byte[] message = Encoding.ASCII.GetBytes(Message);
+            //stream.Write(message, 0, message.Count());
         }
 
         public void Recieve()
         {
-            byte[] recievedMessage = new byte[256];
-            stream.Read(recievedMessage, 0, recievedMessage.Length);
-            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-            Message message = new Message(null, recievedMessageString);
-            Server.messageQueue.Enqueue(message);
-            Console.WriteLine(recievedMessageString);
+            while (true)
+            {
+                byte[] recievedMessage = new byte[256];
+                stream.Read(recievedMessage, 0, recievedMessage.Length);
+                string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+                Message message = new Message(this, recievedMessageString);
+                Server.messageQueue.Enqueue(message);
+                Console.WriteLine(recievedMessageString);
+            }
+            //byte[] recievedMessage = new byte[256];
+            //stream.Read(recievedMessage, 0, recievedMessage.Length);
+            //string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+            //Message message = new Message(this, recievedMessageString);
+            //Server.messageQueue.Enqueue(message);
+            //Console.WriteLine(recievedMessageString);
         }
 
         //public string SetUserName()

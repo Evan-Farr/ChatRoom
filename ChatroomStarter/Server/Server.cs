@@ -26,6 +26,8 @@ namespace Server
         public void Run()
         {
             AcceptClient();
+            //Thread newThread = new Thread(new ThreadStart(AcceptClient));
+            //newThread.Start();
             client.Recieve();
             Respond();
         }
@@ -40,29 +42,38 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
+            Console.WriteLine($"{client.UserId} joined chat.");
             //members.Add(client, client.UserName);
         }
 
         private void Respond()
         {
-            Message message = default(Message);
-            if (messageQueue.TryDequeue(out message))
+            while (true)
             {
-                client.Send(message.Body);
+                Message message = default(Message);
+                if (messageQueue.TryDequeue(out message))
+                {
+                    client.Send(message.Body);
+                }
             }
+            //Message message = default(Message);
+            //if (messageQueue.TryDequeue(out message))
+            //{
+            //    client.Send(message.Body);
+            //}
         }
 
-        //public void Upload()
-        //{
-        //    NotifyChatMembers();
-        //}
-        
-        //public void NotifyChatMembers()
-        //{
-        //    foreach(KeyValuePair<IChatMember, string> member in members)
-        //    {
-        //        member.Key.Notify(member.Key);
-        //    }
-        //}
+        public void Upload()
+        {
+            NotifyChatMembers();
+        }
+
+        public void NotifyChatMembers()
+        {
+            foreach (KeyValuePair<IChatMember, string> member in members)
+            {
+                member.Key.Notify(member.Key);
+            }
+        }
     }
 }
