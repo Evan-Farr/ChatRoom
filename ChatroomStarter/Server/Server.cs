@@ -43,7 +43,10 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            Console.WriteLine($"{client.UserId} joined chat.");
+            Console.WriteLine($"****{client.UserId} joined chat!****");
+            DateTime currentDateTimeJoin = DateTime.Now;
+            Console.WriteLine(currentDateTimeJoin.ToString());
+            Console.WriteLine();
             members.Add(client, client.UserId);
         }
 

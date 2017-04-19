@@ -9,3 +9,5 @@ C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\obj\Debug\Server
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\bin\Debug\Server.exe
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\bin\Debug\Server.pdb
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\bin\Debug\Client.exe
+C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\bin\Debug\Client.pdb
