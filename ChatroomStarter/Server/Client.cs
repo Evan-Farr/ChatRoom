@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Server
@@ -23,6 +24,19 @@ namespace Server
             client = Client;
             UserId = SetUserId();
             //userName = SetUserName();
+            Thread newThread = new Thread(new ThreadStart(Chat));
+            newThread.Start();
+        }
+
+        public void Chat()
+        {
+            while (true)
+            {
+                Send("");
+                Recieve();
+            }
+            //Send("");
+            //Recieve();
         }
 
         public void Send(string Message)

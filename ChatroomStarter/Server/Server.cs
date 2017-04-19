@@ -26,8 +26,6 @@ namespace Server
         public void Run()
         {
             AcceptClient();
-            //Thread newThread = new Thread(new ThreadStart(AcceptClient));
-            //newThread.Start();
             client.Recieve();
             Respond();
         }
