@@ -73,12 +73,15 @@ namespace Server
             //}
         }
 
-        public void Upload()
+        public void UploadToAll()
         {
-            NotifyChatMembers();
+            foreach (KeyValuePair<IChatMember, string> member in members)
+            {
+                member.Key.Notify($">> {client.UserId}: {client.RecievedMessageString}");
+            }
         }
 
-        public void NotifyChatMembers()
+        public void NotifyAllOfNewChatMember()
         {
             foreach (KeyValuePair<IChatMember, string> member in members)
             {

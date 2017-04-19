@@ -13,10 +13,12 @@ namespace Server
         NetworkStream stream;
         public TcpClient client;
         public string userId;
+        private string recievedMessageString;
         //private string userName;
 
         public string UserId { get { return userId; } set { userId = value; } }
         //public string UserName { get { return userName; } set { userName = value; } }
+        public string RecievedMessageString { get { return recievedMessageString; } set { recievedMessageString = value; } }
 
         public Client(NetworkStream Stream, TcpClient Client)
         {
@@ -43,7 +45,7 @@ namespace Server
             {
                 byte[] recievedMessage = new byte[256];
                 stream.Read(recievedMessage, 0, recievedMessage.Length);
-                string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+                recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
                 Message message = new Message(this, recievedMessageString);
                 Server.messageQueue.Enqueue(message);
                 DateTime currentDateTime = DateTime.Now;
@@ -96,9 +98,18 @@ namespace Server
         {
             DateTime currentDateTime = DateTime.Now;
             Console.WriteLine(currentDateTime.ToString());
-            //Send(currentDateTime.ToString());
             Console.WriteLine($"**** {userId} has joined the chat! ****\n");
-            //Send($"{userName} has joined the chat!\n");
+            //Send(currentDateTime.ToString());
+            ////Send($"{userName} has joined the chat!\n");
+        }
+
+        public void Notify(string message)
+        {
+            DateTime currentDateTime = DateTime.Now;
+            Console.WriteLine(currentDateTime.ToString());
+            Console.WriteLine(recievedMessageString);
+            //Send(currentDateTime.ToString());
+            ////Send($"{userName} has joined the chat!\n");
         }
     }
 }

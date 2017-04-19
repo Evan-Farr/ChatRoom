@@ -11,5 +11,6 @@ namespace Server
         //string UserName { get; set; }
         string UserId { get; set; }
         void Notify(IChatMember members);
+        void Notify(string message);
     }
 }
