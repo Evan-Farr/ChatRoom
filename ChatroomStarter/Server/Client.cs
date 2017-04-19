@@ -24,19 +24,6 @@ namespace Server
             client = Client;
             UserId = SetUserId();
             //userName = SetUserName();
-            Thread newThread = new Thread(new ThreadStart(Chat));
-            newThread.Start();
-        }
-
-        public void Chat()
-        {
-            while (true)
-            {
-                Send("");
-                Recieve();
-            }
-            //Send("");
-            //Recieve();
         }
 
         public void Send(string Message)

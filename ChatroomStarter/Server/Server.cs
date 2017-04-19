@@ -29,7 +29,7 @@ namespace Server
             client.Recieve();
             Respond();
         }
-
+        
         private void AcceptClient()
         {
             Console.WriteLine("Waiting for connection....");
@@ -43,9 +43,11 @@ namespace Server
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
             members.Add(client, client.UserId);
+            Thread newClientThread = new Thread(() => Respond());
+            newClientThread.Start();
             DateTime currentDateTimeJoin = DateTime.Now;
             Console.WriteLine(currentDateTimeJoin.ToString());
-            Console.WriteLine($"****{client.UserId} joined chat!****");
+            Console.WriteLine($"**** {client.UserId} joined chat. ****");
             Console.WriteLine();
         }
 
