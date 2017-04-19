@@ -102,14 +102,5 @@ namespace Server
             //Send(currentDateTime.ToString());
             ////Send($"{userName} has joined the chat!\n");
         }
-
-        public void Notify(string message)
-        {
-            DateTime currentDateTime = DateTime.Now;
-            Console.WriteLine(currentDateTime.ToString());
-            Console.WriteLine(recievedMessageString);
-            //Send(currentDateTime.ToString());
-            ////Send($"{userName} has joined the chat!\n");
-        }
     }
 }

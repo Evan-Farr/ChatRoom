@@ -15,16 +15,27 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         TcpListener server;
-        private static Semaphore semaphore;
         public static Dictionary<IChatMember, string> members = new Dictionary<IChatMember, string>();
 
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
+            Console.WriteLine("Listening....");
         }
 
-        public void Run()
+        //private void StartAccept()
+        //{
+        //    server.BeginAcceptTcpClient(HandleAsyncConnection, server);
+        //}
+
+        //private void HandleAsyncConnection(IAsyncResult res)
+        //{
+        //    StartAccept();
+        //    TcpClient client = server.EndAcceptTcpClient(res);
+        //}
+
+        public async void Run()
         {
             AcceptClient();
             client.Recieve();
@@ -33,7 +44,6 @@ namespace Server
         
         private void AcceptClient()
         {
-            Console.WriteLine("Waiting for connection....");
             TcpClient clientSocket = default(TcpClient);
             clientSocket = server.AcceptTcpClient();
             Console.WriteLine("Connected");
@@ -43,17 +53,15 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
+            members.Add(client, client.UserId);
             Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
             newClientThread.Start();
-            members.Add(client, client.UserId);
             DateTime currentDateTimeJoin = DateTime.Now;
             Console.WriteLine(currentDateTimeJoin.ToString());
             Console.WriteLine($"**** {client.UserId} joined chat. ****");
             Console.WriteLine();
-            //Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
-            //newClientThread.Start();
-            //Thread newClientThread = new Thread(() => client = new Client(stream, clientSocket));
-            //newClientThread.Start();
+            Thread keepListening = new Thread(new ThreadStart(AcceptClient));
+            keepListening.Start();
         }
 
         private void Respond()
@@ -73,15 +81,12 @@ namespace Server
             //}
         }
 
-        public void UploadToAll()
+        public void Upload()
         {
-            foreach (KeyValuePair<IChatMember, string> member in members)
-            {
-                member.Key.Notify($">> {client.UserId}: {client.RecievedMessageString}");
-            }
+            NotifyChatMember();
         }
 
-        public void NotifyAllOfNewChatMember()
+        public void NotifyChatMember()
         {
             foreach (KeyValuePair<IChatMember, string> member in members)
             {
