@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client /*: IChatMember*/
+    class Client : IChatMember
     {
         NetworkStream stream;
         public TcpClient client;
@@ -22,7 +22,7 @@ namespace Server
             stream = Stream;
             client = Client;
             UserId = "495933b6-1762-47a1-b655-483510072e73";
-            //userName = SetUserName();
+            userName = SetUserName();
         }
 
         public void Send(string Message)
@@ -55,24 +55,39 @@ namespace Server
             //Console.WriteLine(recievedMessageString);
         }
 
-        //public string SetUserName()
-        //{
-        //    Send("Enter your desired display name for this chat...");
-        //    byte[] recievedMessage = new byte[256];
-        //    stream.Read(recievedMessage, 0, recievedMessage.Length);
-        //    string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-        //    for (int i = 0; i < Server.members.Count; i++)
-        //    {
-        //        if (recievedMessageString.Equals(i))
-        //        {
-        //            Send("That name is not available.");
-        //            Console.WriteLine();
-        //            SetUserName();
-        //        }
-        //    }
-        //    userName = recievedMessageString;
-        //    return userName;
-        //}
+        public string SetUserId()
+        {
+            Random random = new Random();
+            int newRandom = random.Next(100000);
+            for (int i = 0; i < Server.members.Count; i++)
+            {
+                if (newRandom.Equals(i))
+                {
+                    SetUserId();
+                }
+            }
+            UserId = newRandom.ToString();
+            return UserId;
+        }
+
+        public string SetUserName()
+        {
+            Send("Enter your desired display name for this chat...");
+            byte[] recievedMessage = new byte[256];
+            stream.Read(recievedMessage, 0, recievedMessage.Length);
+            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+            for (int i = 0; i < Server.members.Count; i++)
+            {
+                if (recievedMessageString.Equals(i))
+                {
+                    Send("That name is not available.");
+                    Console.WriteLine();
+                    SetUserName();
+                }
+            }
+            userName = recievedMessageString;
+            return userName;
+        }
 
         public void Notify(IChatMember member)
         {

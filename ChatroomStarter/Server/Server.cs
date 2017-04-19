@@ -34,6 +34,7 @@ namespace Server
 
         private void AcceptClient()
         {
+            Console.WriteLine("Waiting for connection....");
             TcpClient clientSocket = default(TcpClient);
             clientSocket = server.AcceptTcpClient();
             Console.WriteLine("Connected");
@@ -43,7 +44,7 @@ namespace Server
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
             Console.WriteLine($"{client.UserId} joined chat.");
-            //members.Add(client, client.UserName);
+            members.Add(client, client.UserId);
         }
 
         private void Respond()
