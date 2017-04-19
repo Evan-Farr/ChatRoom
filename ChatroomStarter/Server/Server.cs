@@ -43,17 +43,17 @@ namespace Server
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            //Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
-            //newClientThread.Start();
-            //Thread newClientThread = new Thread(() => client = new Client(stream, clientSocket));
-            //newClientThread.Start();
+            Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
+            newClientThread.Start();
             members.Add(client, client.UserId);
             DateTime currentDateTimeJoin = DateTime.Now;
             Console.WriteLine(currentDateTimeJoin.ToString());
             Console.WriteLine($"**** {client.UserId} joined chat. ****");
             Console.WriteLine();
-            Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
-            newClientThread.Start();
+            //Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
+            //newClientThread.Start();
+            //Thread newClientThread = new Thread(() => client = new Client(stream, clientSocket));
+            //newClientThread.Start();
         }
 
         private void Respond()
