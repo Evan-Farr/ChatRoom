@@ -24,18 +24,7 @@ namespace Server
             Console.WriteLine("Listening....");
         }
 
-        //private void StartAccept()
-        //{
-        //    server.BeginAcceptTcpClient(HandleAsyncConnection, server);
-        //}
-
-        //private void HandleAsyncConnection(IAsyncResult res)
-        //{
-        //    StartAccept();
-        //    TcpClient client = server.EndAcceptTcpClient(res);
-        //}
-
-        public async void Run()
+        public void Run()
         {
             AcceptClient();
             client.Recieve();
