@@ -100,7 +100,7 @@ namespace Server
             Console.WriteLine(currentDateTime.ToString());
             Console.WriteLine($"**** {userId} has joined the chat! ****\n");
             //Send(currentDateTime.ToString());
-            ////Send($"{userName} has joined the chat!\n");
+            //Send($"{userId} has joined the chat!\n");
         }
     }
 }

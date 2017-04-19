@@ -45,9 +45,10 @@ namespace Server
             members.Add(client, client.UserId);
             Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
             newClientThread.Start();
-            DateTime currentDateTimeJoin = DateTime.Now;
-            Console.WriteLine(currentDateTimeJoin.ToString());
-            Console.WriteLine($"**** {client.UserId} joined chat. ****");
+            //DateTime currentDateTimeJoin = DateTime.Now;
+            //Console.WriteLine(currentDateTimeJoin.ToString());
+            ////Console.WriteLine($"**** {client.UserId} joined chat. ****");
+            Upload();
             Console.WriteLine();
             Thread keepListening = new Thread(new ThreadStart(AcceptClient));
             keepListening.Start();
