@@ -40,14 +40,15 @@ namespace Server
             Console.WriteLine("Connected");
             DateTime currentDateTime = DateTime.Now;
             Console.WriteLine(currentDateTime.ToString());
+            Console.WriteLine("--------------------------------------");
             Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            Console.WriteLine($"****{client.UserId} joined chat!****");
+            members.Add(client, client.UserId);
             DateTime currentDateTimeJoin = DateTime.Now;
             Console.WriteLine(currentDateTimeJoin.ToString());
+            Console.WriteLine($"****{client.UserId} joined chat!****");
             Console.WriteLine();
-            members.Add(client, client.UserId);
         }
 
         private void Respond()
