@@ -86,7 +86,7 @@ namespace Server
         {
             DateTime currentDateTime = DateTime.Now;
             Send(currentDateTime.ToString());
-            Send($"{userId} has joined the chat!\n");
+            Send($"**** {userId} joined the chat! ****\n");
         }
     }
 }

@@ -61,7 +61,9 @@ namespace Server
                     {
                         if (member.Key != message.sender)
                         {
-                            member.Key.Send(message.Body);
+                            DateTime currentDateTime = DateTime.Now;
+                            member.Key.Send("\n" + currentDateTime.ToString());
+                            member.Key.Send($">> {message.sender.UserId}: " + message.Body);
                         }
                     }
                 }
