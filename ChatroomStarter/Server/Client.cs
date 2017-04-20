@@ -57,7 +57,7 @@ namespace Server
         //Message message = new Message(this, recievedMessageString);
         //Server.messageQueue.Enqueue(message);
         //Console.WriteLine(recievedMessageString);
-         }
+    }
 
         public string SetUserId()
         {
