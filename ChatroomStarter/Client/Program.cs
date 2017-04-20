@@ -19,7 +19,6 @@ namespace Client
             }
             //Task.Run(() => client.Send());
             //Task.Run(() => client.Recieve());
-            //Console.ReadLine();
         }
     }
 }
