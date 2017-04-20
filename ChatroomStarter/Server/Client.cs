@@ -51,13 +51,13 @@ namespace Server
                 Console.WriteLine(currentDateTime.ToString());
                 Console.WriteLine($">> {UserId}: " + recievedMessageString);
             }
-            //byte[] recievedMessage = new byte[256];
-            //stream.Read(recievedMessage, 0, recievedMessage.Length);
-            //string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-            //Message message = new Message(this, recievedMessageString);
-            //Server.messageQueue.Enqueue(message);
-            //Console.WriteLine(recievedMessageString);
-        }
+        //byte[] recievedMessage = new byte[256];
+        //stream.Read(recievedMessage, 0, recievedMessage.Length);
+        //string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+        //Message message = new Message(this, recievedMessageString);
+        //Server.messageQueue.Enqueue(message);
+        //Console.WriteLine(recievedMessageString);
+         }
 
         public string SetUserId()
         {
