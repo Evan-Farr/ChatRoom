@@ -70,6 +70,19 @@ namespace Server
             }
         }
 
+        //public void Disconnect(TcpClient clientSocket)
+        //{
+        //    foreach(KeyValuePair<IChatMember, string> member in members)
+        //    {
+        //        if (client.UserName.Equals(member.Key))
+        //        {
+        //            members.Remove(client);
+        //        }
+        //    }
+        //    clientSocket.GetStream().Close();
+        //    clientSocket.Close();
+        //}
+
         public void NotifyChatMember(IChatMember memberski)
         {
             foreach (KeyValuePair<IChatMember, string> member in members)
