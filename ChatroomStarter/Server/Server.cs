@@ -15,7 +15,7 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         public TcpListener server;
-        public static Dictionary<IChatMember, string> members = new Dictionary<IChatMember, string>();
+        public static Dictionary<Client, string> members = new Dictionary<Client, string>();
 
         public Server()
         {
@@ -26,9 +26,10 @@ namespace Server
 
         public void Run()
         {
-            AcceptClient();
-            client.Recieve();
-            Respond();
+            Parallel.Invoke(AcceptClient, Respond);
+            //AcceptClient();
+            //client.Recieve();
+            //Respond();
         }
         
         private void AcceptClient()
@@ -69,11 +70,11 @@ namespace Server
                 Message message = default(Message);
                 if (messageQueue.TryDequeue(out message))
                 {
-                    foreach (KeyValuePair<IChatMember, string> member in members)
+                    foreach (KeyValuePair<Client, string> member in members)
                     {
-                        if (client.UserId != message.UserId)
+                        if (member.Key != message.sender)
                         {
-                            client.Send(message.Body);
+                            member.Key.Send(message.Body);
                         }
                     }
                 }
@@ -87,7 +88,7 @@ namespace Server
 
         public void NotifyChatMember()
         {
-            foreach (KeyValuePair<IChatMember, string> member in members)
+            foreach (KeyValuePair<Client, string> member in members)
             {
                 member.Key.Notify(member.Key);
             }

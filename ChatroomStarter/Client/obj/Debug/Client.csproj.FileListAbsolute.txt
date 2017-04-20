@@ -7,6 +7,5 @@ c:\users\hobbitmafia\Dropbox\C#\ChatroomStarter\Client\obj\Debug\Client.csprojRe
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Client\bin\Debug\Client.exe.config
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Client\bin\Debug\Client.exe
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Client\bin\Debug\Client.pdb
-C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Client\obj\Debug\Client.exe
 C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Client\obj\Debug\Client.pdb

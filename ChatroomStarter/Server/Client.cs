@@ -29,11 +29,11 @@ namespace Server
 
         public void Send(string Message)
         {
-            while (true)
-            {
+            //while (true)
+            //{
                 byte[] message = Encoding.ASCII.GetBytes(Message);
                 stream.Write(message, 0, message.Count());
-            }
+            //}
             //byte[] message = Encoding.ASCII.GetBytes(Message);
             //stream.Write(message, 0, message.Count());
         }
