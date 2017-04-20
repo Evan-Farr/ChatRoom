@@ -40,11 +40,11 @@ namespace Server
             Console.WriteLine("--------------------------------------");
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
-            members.Add(client, client.UserId);
+            members.Add(client, client.UserName);
             Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
             newClientThread.Start();
-            Console.WriteLine($"**** {client.UserId} joined chat. ****");
-            NotifyChatMember();
+            Console.WriteLine($"**** {client.UserName} joined chat. ****");
+            NotifyChatMember(client);
             Console.WriteLine();
             Thread keepListening = new Thread(new ThreadStart(AcceptClient));
             keepListening.Start();
@@ -63,18 +63,18 @@ namespace Server
                         {
                             DateTime currentDateTime = DateTime.Now;
                             member.Key.Send("\n" + currentDateTime.ToString());
-                            member.Key.Send($">> {message.sender.UserId}: " + message.Body);
+                            member.Key.Send($">> {message.sender.UserName}: " + message.Body);
                         }
                     }
                 }
             }
         }
 
-        public void NotifyChatMember()
+        public void NotifyChatMember(IChatMember memberski)
         {
             foreach (KeyValuePair<IChatMember, string> member in members)
             {
-                member.Key.Notify(member.Key);
+                member.Key.Notify(memberski);
             }
         }
     }

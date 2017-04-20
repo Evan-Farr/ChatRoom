@@ -14,17 +14,18 @@ namespace Server
         NetworkStream stream;
         public TcpClient client;
         public string userId;
-        //private string userName;
+        private string userName;
+        private string recievedMessageString;
 
         public string UserId { get { return userId; } set { userId = value; } }
-        //public string UserName { get { return userName; } set { userName = value; } }
+        public string UserName { get { return userName; } set { userName = value; } }
 
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
             UserId = SetUserId();
-            //userName = SetUserName();
+            userName = SetUserName();
         }
 
         public void Send(string Message)
@@ -39,12 +40,12 @@ namespace Server
             {
                 byte[] recievedMessage = new byte[256];
                 stream.Read(recievedMessage, 0, recievedMessage.Length);
-                string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+                string recievedMessageString = Encoding.ASCII.GetString(recievedMessage).Trim('\0');
                 Message message = new Message(this, recievedMessageString);
                 Server.messageQueue.Enqueue(message);
                 DateTime currentDateTime = DateTime.Now;
                 Console.WriteLine(currentDateTime.ToString());
-                Console.WriteLine($">> {UserId}: " + recievedMessageString);
+                Console.WriteLine($">> {userName}: " + recievedMessageString);
             }
     }
 
@@ -63,30 +64,29 @@ namespace Server
             return UserId;
         }
 
-        //public string SetUserName()
-        //{
-        //    Send("Enter your desired display name for this chat...");
-        //    byte[] recievedMessage = new byte[256];
-        //    stream.Read(recievedMessage, 0, recievedMessage.Length);
-        //    string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-        //    for (int i = 0; i < Server.members.Count; i++)
-        //    {
-        //        if (recievedMessageString.Equals(i))
-        //        {
-        //            Send("That name is not available.");
-        //            Console.WriteLine();
-        //            SetUserName();
-        //        }
-        //    }
-        //    userName = recievedMessageString;
-        //    return userName;
-        //}
+        public string SetUserName()
+        {
+            Send("Enter your desired display name for this chat...");
+            byte[] recievedMessage = new byte[256];
+            stream.Read(recievedMessage, 0, recievedMessage.Length);
+            recievedMessageString = Encoding.ASCII.GetString(recievedMessage).Trim('\0');
+            foreach (KeyValuePair<IChatMember, string> member in Server.members)
+            {
+                if (member.Value.Equals(recievedMessageString))
+                {
+                    Send("That name is not available.");
+                    SetUserName();
+                }
+            }
+            userName = recievedMessageString;
+            return userName;
+        }
 
         public void Notify(IChatMember member)
         {
             DateTime currentDateTime = DateTime.Now;
             Send(currentDateTime.ToString());
-            Send($"**** {userId} joined the chat! ****\n");
+            Send($"**** {member.UserName} joined the chat! ****\n");
         }
     }
 }
