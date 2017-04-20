@@ -14,7 +14,7 @@ namespace Server
     {
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
-        TcpListener server;
+        public TcpListener server;
         public static Dictionary<IChatMember, string> members = new Dictionary<IChatMember, string>();
 
         public Server()
@@ -54,21 +54,30 @@ namespace Server
             keepListening.Start();
         }
 
-        private void Respond()
+        public void Respond()
         {
+            //while (true)
+            //{
+            //    Message message = default(Message);
+            //    if (messageQueue.TryDequeue(out message))
+            //    {
+            //        client.Send(message.Body);
+            //    }
+            //}
             while (true)
             {
                 Message message = default(Message);
                 if (messageQueue.TryDequeue(out message))
                 {
-                    client.Send(message.Body);
+                    foreach (KeyValuePair<IChatMember, string> member in members)
+                    {
+                        if (client.UserId != message.UserId)
+                        {
+                            client.Send(message.Body);
+                        }
+                    }
                 }
             }
-            //Message message = default(Message);
-            //if (messageQueue.TryDequeue(out message))
-            //{
-            //    client.Send(message.Body);
-            //}
         }
 
         public void Upload()
