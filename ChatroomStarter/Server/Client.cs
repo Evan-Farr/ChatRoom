@@ -29,13 +29,8 @@ namespace Server
 
         public void Send(string Message)
         {
-            //while (true)
-            //{
-                byte[] message = Encoding.ASCII.GetBytes(Message);
-                stream.Write(message, 0, message.Count());
-            //}
-            //byte[] message = Encoding.ASCII.GetBytes(Message);
-            //stream.Write(message, 0, message.Count());
+            byte[] message = Encoding.ASCII.GetBytes(Message);
+            stream.Write(message, 0, message.Count());
         }
 
         public void Recieve()
@@ -51,12 +46,6 @@ namespace Server
                 Console.WriteLine(currentDateTime.ToString());
                 Console.WriteLine($">> {UserId}: " + recievedMessageString);
             }
-        //byte[] recievedMessage = new byte[256];
-        //stream.Read(recievedMessage, 0, recievedMessage.Length);
-        //string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-        //Message message = new Message(this, recievedMessageString);
-        //Server.messageQueue.Enqueue(message);
-        //Console.WriteLine(recievedMessageString);
     }
 
         public string SetUserId()
@@ -96,10 +85,8 @@ namespace Server
         public void Notify(IChatMember member)
         {
             DateTime currentDateTime = DateTime.Now;
-            Console.WriteLine(currentDateTime.ToString());
-            Console.WriteLine($"**** {userId} has joined the chat! ****\n");
-            //Send(currentDateTime.ToString());
-            //Send($"{userId} has joined the chat!\n");
+            Send(currentDateTime.ToString());
+            Send($"{userId} has joined the chat!\n");
         }
     }
 }

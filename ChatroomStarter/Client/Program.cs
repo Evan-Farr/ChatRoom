@@ -13,12 +13,9 @@ namespace Client
             Client client = new Client("127.0.0.1", 9999);
             while (true)
             {
-                client.Send();
-                client.Recieve();
+                Parallel.Invoke(client.Send, client.Recieve);
                 Console.ReadLine();
             }
-            //Task.Run(() => client.Send());
-            //Task.Run(() => client.Recieve());
         }
     }
 }

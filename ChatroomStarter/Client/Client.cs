@@ -29,9 +29,6 @@ namespace Client
                 byte[] message = Encoding.ASCII.GetBytes(messageString);
                 stream.Write(message, 0, message.Count());
             }
-            //string messageString = UI.GetInput();
-            //byte[] message = Encoding.ASCII.GetBytes(messageString);
-            //stream.Write(message, 0, message.Count());
         }
 
         public void Recieve()
@@ -42,9 +39,6 @@ namespace Client
                 stream.Read(recievedMessage, 0, recievedMessage.Length);
                 UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
             }
-            //byte[] recievedMessage = new byte[256];
-            //stream.Read(recievedMessage, 0, recievedMessage.Length);
-            //UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
         }
     }
 }

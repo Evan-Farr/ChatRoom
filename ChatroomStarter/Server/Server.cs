@@ -15,21 +15,19 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         public TcpListener server;
-        public static Dictionary<Client, string> members = new Dictionary<Client, string>();
+        public static Dictionary<IChatMember, string> members = new Dictionary<IChatMember, string>();
 
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
             Console.WriteLine("Listening....");
+            Console.WriteLine();
         }
 
         public void Run()
         {
             Parallel.Invoke(AcceptClient, Respond);
-            //AcceptClient();
-            //client.Recieve();
-            //Respond();
         }
         
         private void AcceptClient()
@@ -40,16 +38,13 @@ namespace Server
             DateTime currentDateTime = DateTime.Now;
             Console.WriteLine(currentDateTime.ToString());
             Console.WriteLine("--------------------------------------");
-            Console.WriteLine();
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
             members.Add(client, client.UserId);
             Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
             newClientThread.Start();
-            //DateTime currentDateTimeJoin = DateTime.Now;
-            //Console.WriteLine(currentDateTimeJoin.ToString());
-            ////Console.WriteLine($"**** {client.UserId} joined chat. ****");
-            Upload();
+            Console.WriteLine($"**** {client.UserId} joined chat. ****");
+            NotifyChatMember();
             Console.WriteLine();
             Thread keepListening = new Thread(new ThreadStart(AcceptClient));
             keepListening.Start();
@@ -57,20 +52,12 @@ namespace Server
 
         public void Respond()
         {
-            //while (true)
-            //{
-            //    Message message = default(Message);
-            //    if (messageQueue.TryDequeue(out message))
-            //    {
-            //        client.Send(message.Body);
-            //    }
-            //}
             while (true)
             {
                 Message message = default(Message);
                 if (messageQueue.TryDequeue(out message))
                 {
-                    foreach (KeyValuePair<Client, string> member in members)
+                    foreach (KeyValuePair<IChatMember, string> member in members)
                     {
                         if (member.Key != message.sender)
                         {
@@ -81,14 +68,9 @@ namespace Server
             }
         }
 
-        public void Upload()
-        {
-            NotifyChatMember();
-        }
-
         public void NotifyChatMember()
         {
-            foreach (KeyValuePair<Client, string> member in members)
+            foreach (KeyValuePair<IChatMember, string> member in members)
             {
                 member.Key.Notify(member.Key);
             }

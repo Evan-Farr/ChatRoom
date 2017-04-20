@@ -11,6 +11,7 @@ namespace Client
         public static void DisplayMessage(string message)
         {
             Console.WriteLine(message);
+            
         }
         
         public static string GetInput()
