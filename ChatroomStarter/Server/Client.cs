@@ -46,6 +46,7 @@ namespace Server
                 DateTime currentDateTime = DateTime.Now;
                 Console.WriteLine(currentDateTime.ToString());
                 Console.WriteLine($">> {userName}: " + recievedMessageString);
+                Console.WriteLine();
             }
     }
 

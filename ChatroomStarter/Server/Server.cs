@@ -63,7 +63,7 @@ namespace Server
                         {
                             DateTime currentDateTime = DateTime.Now;
                             member.Key.Send("\n" + currentDateTime.ToString());
-                            member.Key.Send($">> {message.sender.UserName}: " + message.Body);
+                            member.Key.Send($">> {message.sender.UserName}: " + message.Body + "\n");
                         }
                     }
                 }
