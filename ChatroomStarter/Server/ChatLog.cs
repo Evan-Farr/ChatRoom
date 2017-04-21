@@ -11,7 +11,15 @@ namespace Server
     {
         public void Log(string message)
         {
-            File.AppendAllText("ChatRoomLog.txt", DateTime.Now.ToString() + "\n" + message);
+            string path = @"C:\Users\EvanC\Documents\GitHub\ChatRoom\ChatroomStarter\Server\bin\Debug\ChatRoomLog.txt";
+
+            if (!File.Exists(path))
+            {
+                string createText = "!!!! Beginning of Log !!!!\n" + Environment.NewLine;
+                File.WriteAllText(path, createText);
+            }
+
+            File.AppendAllText(path, DateTime.Now.ToString() + "\n" + message);
         }
     }
 }
