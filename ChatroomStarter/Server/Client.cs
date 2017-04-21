@@ -42,7 +42,7 @@ namespace Server
                 DateTime currentDateTime = DateTime.Now;
                 Console.WriteLine(currentDateTime.ToString());
                 Console.WriteLine($"**** {userName} left the chat. ****\n\n");
-                AlertDisconnect();
+                AlertDisconnect(client);
                 Disconnect(client);
             }
         }
@@ -61,7 +61,7 @@ namespace Server
                     DateTime thisCurrentDateTime = DateTime.Now;
                     Console.WriteLine(thisCurrentDateTime.ToString());
                     Console.WriteLine($"**** {userName} left the chat. ****\n\n");
-                    AlertDisconnect();
+                    AlertDisconnect(client);
                     Disconnect(client);
                     break;
                 }
@@ -103,7 +103,7 @@ namespace Server
                 DateTime currentDateTime = DateTime.Now;
                 Console.WriteLine(currentDateTime.ToString());
                 Console.WriteLine($"**** {userName} left the chat. ****\n\n");
-                AlertDisconnect();
+                AlertDisconnect(client);
                 Disconnect(client);
             }
             recievedMessageString = Encoding.ASCII.GetString(recievedMessage).Trim('\0');
@@ -125,10 +125,10 @@ namespace Server
             stream.Close();
         }
 
-        public void AlertDisconnect()
+        public void AlertDisconnect(TcpClient client)
         {
             log.Log($"---- {userName} left the chat. ----\n\n");
-            //Server.NotifyChatMember(client, "left");
+            Server.NotifyChatMember(Server.client, "left");
         }
 
         public void Notify(IChatMember member, string status)

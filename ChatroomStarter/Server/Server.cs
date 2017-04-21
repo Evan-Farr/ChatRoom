@@ -75,7 +75,7 @@ namespace Server
             }
         }
 
-        public void NotifyChatMember(IChatMember memberski, string status)
+        public static void NotifyChatMember(IChatMember memberski, string status)
         {
             foreach (KeyValuePair<IChatMember, string> member in members)
             {
