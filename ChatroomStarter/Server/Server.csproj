@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChatLog.cs" />
     <Compile Include="ChatRoom.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="IChatMember.cs" />

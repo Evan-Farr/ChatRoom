@@ -44,7 +44,7 @@ namespace Server
             Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
             newClientThread.Start();
             Console.WriteLine($"**** {client.UserName} joined chat. ****");
-            NotifyChatMember(client);
+            NotifyChatMember(client, "joined");
             Console.WriteLine();
             Thread keepListening = new Thread(new ThreadStart(AcceptClient));
             keepListening.Start();
@@ -70,24 +70,25 @@ namespace Server
             }
         }
 
-        //public void Disconnect(TcpClient clientSocket)
-        //{
-        //    foreach(KeyValuePair<IChatMember, string> member in members)
-        //    {
-        //        if (client.UserName.Equals(member.Key))
-        //        {
-        //            members.Remove(client);
-        //        }
-        //    }
-        //    clientSocket.GetStream().Close();
-        //    clientSocket.Close();
-        //}
-
-        public void NotifyChatMember(IChatMember memberski)
+        public void Disconnect(TcpClient clientSocket)
         {
             foreach (KeyValuePair<IChatMember, string> member in members)
             {
-                member.Key.Notify(memberski);
+                if (client.UserName.Equals(member.Key))
+                {
+                    members.Remove(client);
+                }
+            }
+            clientSocket.GetStream().Close();
+            clientSocket.Close();
+            NotifyChatMember(client, "left");
+        }
+
+        public void NotifyChatMember(IChatMember memberski, string status)
+        {
+            foreach (KeyValuePair<IChatMember, string> member in members)
+            {
+                member.Key.Notify(memberski, status);
             }
         }
     }

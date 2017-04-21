@@ -83,11 +83,11 @@ namespace Server
             return userName;
         }
 
-        public void Notify(IChatMember member)
+        public void Notify(IChatMember member, string status)
         {
             DateTime currentDateTime = DateTime.Now;
             Send(currentDateTime.ToString());
-            Send($"**** {member.UserName} joined the chat! ****\n");
+            Send($"**** {member.UserName} {status} the chat. ****\n");
         }
     }
 }

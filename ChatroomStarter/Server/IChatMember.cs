@@ -10,7 +10,7 @@ namespace Server
     {
         string UserName { get; set; }
         string UserId { get; set; }
-        void Notify(IChatMember members);
+        void Notify(IChatMember members, string status);
         void Send(string message);
     }
 }
