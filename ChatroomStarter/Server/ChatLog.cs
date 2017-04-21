@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public class ChatLog
+    class ChatLog : ILogger
     {
-        public static void Main()
+        public void Log(string message)
         {
-            File.AppendAllText("ChatRoomLog.txt", "hello World");
+            File.AppendAllText("ChatRoomLog.txt", DateTime.Now.ToString() + "\n" + message);
         }
     }
 }

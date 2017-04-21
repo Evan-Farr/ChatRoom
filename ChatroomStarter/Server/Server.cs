@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -15,10 +16,12 @@ namespace Server
         public static ConcurrentQueue<Message> messageQueue = new ConcurrentQueue<Message>();
         public static Client client;
         public TcpListener server;
+        public ILogger log;
         public static Dictionary<IChatMember, string> members = new Dictionary<IChatMember, string>();
 
-        public Server()
+        public Server(ILogger log)
         {
+            this.log = log;
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
             Console.WriteLine("Listening....");
@@ -44,6 +47,7 @@ namespace Server
             Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
             newClientThread.Start();
             Console.WriteLine($"**** {client.UserName} joined chat. ****");
+            log.Log($"**** {client.UserName} joined chat. ****\n\n");
             NotifyChatMember(client, "joined");
             Console.WriteLine();
             Thread keepListening = new Thread(new ThreadStart(AcceptClient));
@@ -57,6 +61,7 @@ namespace Server
                 Message message = default(Message);
                 if (messageQueue.TryDequeue(out message))
                 {
+                    log.Log($">> {message.sender.UserName}: " + message.Body + "\n\n");
                     foreach (KeyValuePair<IChatMember, string> member in members)
                     {
                         if (member.Key != message.sender)
@@ -81,6 +86,7 @@ namespace Server
             }
             clientSocket.GetStream().Close();
             clientSocket.Close();
+            log.Log($"---- {client.UserName} left the chat. ----");
             NotifyChatMember(client, "left");
         }
 
