@@ -16,22 +16,35 @@ namespace Server
         public string userId;
         private string userName;
         private string recievedMessageString;
+        public ILogger log;
 
         public string UserId { get { return userId; } set { userId = value; } }
         public string UserName { get { return userName; } set { userName = value; } }
 
-        public Client(NetworkStream Stream, TcpClient Client)
+        public Client(NetworkStream Stream, TcpClient Client, ILogger log)
         {
             stream = Stream;
             client = Client;
             UserId = SetUserId();
             userName = SetUserName();
+            this.log = log;
         }
 
         public void Send(string Message)
         {
             byte[] message = Encoding.ASCII.GetBytes(Message);
-            stream.Write(message, 0, message.Count());
+            try
+            {
+                stream.Write(message, 0, message.Count());
+            }
+            catch
+            {
+                DateTime currentDateTime = DateTime.Now;
+                Console.WriteLine(currentDateTime.ToString());
+                Console.WriteLine($"**** {userName} left the chat. ****\n\n");
+                AlertDisconnect();
+                Disconnect(client);
+            }
         }
 
         public void Recieve()
@@ -39,7 +52,19 @@ namespace Server
             while (true)
             {
                 byte[] recievedMessage = new byte[256];
-                stream.Read(recievedMessage, 0, recievedMessage.Length);
+                try
+                {
+                    stream.Read(recievedMessage, 0, recievedMessage.Length);
+                }
+                catch
+                {
+                    DateTime thisCurrentDateTime = DateTime.Now;
+                    Console.WriteLine(thisCurrentDateTime.ToString());
+                    Console.WriteLine($"**** {userName} left the chat. ****\n\n");
+                    AlertDisconnect();
+                    Disconnect(client);
+                    break;
+                }
                 string recievedMessageString = Encoding.ASCII.GetString(recievedMessage).Trim('\0');
                 Message message = new Message(this, recievedMessageString);
                 Server.messageQueue.Enqueue(message);
@@ -69,7 +94,18 @@ namespace Server
         {
             Send("Enter your desired display name for this chat...");
             byte[] recievedMessage = new byte[256];
-            stream.Read(recievedMessage, 0, recievedMessage.Length);
+            try
+            {
+                stream.Read(recievedMessage, 0, recievedMessage.Length);
+            }
+            catch
+            {
+                DateTime currentDateTime = DateTime.Now;
+                Console.WriteLine(currentDateTime.ToString());
+                Console.WriteLine($"**** {userName} left the chat. ****\n\n");
+                AlertDisconnect();
+                Disconnect(client);
+            }
             recievedMessageString = Encoding.ASCII.GetString(recievedMessage).Trim('\0');
             foreach (KeyValuePair<IChatMember, string> member in Server.members)
             {
@@ -81,6 +117,18 @@ namespace Server
             }
             userName = recievedMessageString;
             return userName;
+        }
+
+        public void Disconnect(TcpClient client)
+        {
+            Server.members.Remove(Server.client);
+            stream.Close();
+        }
+
+        public void AlertDisconnect()
+        {
+            log.Log($"---- {userName} left the chat. ----\n\n");
+            //Server.NotifyChatMember(client, "left");
         }
 
         public void Notify(IChatMember member, string status)

@@ -42,12 +42,12 @@ namespace Server
             Console.WriteLine(currentDateTime.ToString());
             Console.WriteLine("--------------------------------------");
             NetworkStream stream = clientSocket.GetStream();
-            client = new Client(stream, clientSocket);
+            client = new Client(stream, clientSocket, log);
             members.Add(client, client.UserName);
             Thread newClientThread = new Thread(new ThreadStart(client.Recieve));
             newClientThread.Start();
             Console.WriteLine($"**** {client.UserName} joined chat. ****");
-            log.Log($"**** {client.UserName} joined chat. ****\n\n");
+            log.Log($"**** {client.UserName} joined the chat. ****\n\n");
             NotifyChatMember(client, "joined");
             Console.WriteLine();
             Thread keepListening = new Thread(new ThreadStart(AcceptClient));
@@ -73,21 +73,6 @@ namespace Server
                     }
                 }
             }
-        }
-
-        public void Disconnect(TcpClient clientSocket)
-        {
-            foreach (KeyValuePair<IChatMember, string> member in members)
-            {
-                if (client.UserName.Equals(member.Key))
-                {
-                    members.Remove(client);
-                }
-            }
-            clientSocket.GetStream().Close();
-            clientSocket.Close();
-            log.Log($"---- {client.UserName} left the chat. ----");
-            NotifyChatMember(client, "left");
         }
 
         public void NotifyChatMember(IChatMember memberski, string status)
