@@ -42,8 +42,9 @@ namespace Server
                 DateTime currentDateTime = DateTime.Now;
                 Console.WriteLine(currentDateTime.ToString());
                 Console.WriteLine($"**** {userName} left the chat. ****\n\n");
-                AlertDisconnect(client);
                 Disconnect(client);
+                LogDisconnect();
+                AlertDisconnect(client);
             }
         }
 
@@ -61,8 +62,9 @@ namespace Server
                     DateTime thisCurrentDateTime = DateTime.Now;
                     Console.WriteLine(thisCurrentDateTime.ToString());
                     Console.WriteLine($"**** {userName} left the chat. ****\n\n");
-                    AlertDisconnect(client);
                     Disconnect(client);
+                    LogDisconnect();
+                    AlertDisconnect(client);
                     break;
                 }
                 string recievedMessageString = Encoding.ASCII.GetString(recievedMessage).Trim('\0');
@@ -73,7 +75,7 @@ namespace Server
                 Console.WriteLine($">> {userName}: " + recievedMessageString);
                 Console.WriteLine();
             }
-    }
+        }
 
         public string SetUserId()
         {
@@ -102,8 +104,8 @@ namespace Server
             {
                 DateTime currentDateTime = DateTime.Now;
                 Console.WriteLine(currentDateTime.ToString());
-                Console.WriteLine($"**** {userName} left the chat. ****\n\n");
-                AlertDisconnect(client);
+                Console.WriteLine("**** Unknown person tried to join the chat but quite before joining. ****\n\n");
+                log.Log("**** Unknown person tried to join the chat but quite before joining. ****\n\n");
                 Disconnect(client);
             }
             recievedMessageString = Encoding.ASCII.GetString(recievedMessage).Trim('\0');
@@ -121,13 +123,24 @@ namespace Server
 
         public void Disconnect(TcpClient client)
         {
-            Server.members.Remove(Server.client);
+            foreach (KeyValuePair<IChatMember, string> member in Server.members)
+            {
+                if (member.Value.Equals(userName))
+                {
+                    Server.members.Remove(member.Key);
+                    break;
+                }
+            }
             stream.Close();
+        }
+
+        public void LogDisconnect()
+        {
+            log.Log($"---- {userName} left the chat. ----\n\n");
         }
 
         public void AlertDisconnect(TcpClient client)
         {
-            log.Log($"---- {userName} left the chat. ----\n\n");
             Server.NotifyChatMember(Server.client, "left");
         }
 
